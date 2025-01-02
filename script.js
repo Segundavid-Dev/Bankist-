@@ -104,6 +104,23 @@ const calcDisplayBalance = function (movements) {
 // call function
 calcDisplayBalance(account1.movements);
 
+
+// const calcDisplaySummary
+
+
+const createUsername = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(" ")
+      .map((name) => name[0])
+      .join("");
+  });
+};
+
+// call function
+createUsername(accounts);
+
 const eurToUsd = 1.1;
 // PIPELINE
 const totalDepositUSD = movements
