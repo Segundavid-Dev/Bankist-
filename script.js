@@ -104,6 +104,7 @@ const calcDisplayBalance = function (movements) {
 // call function
 calcDisplayBalance(account1.movements);
 
+// in summary
 const calcDisplaySummary = function (movements) {
   const incomes = movements
     .filter((mov) => mov > 0)
@@ -113,6 +114,16 @@ const calcDisplaySummary = function (movements) {
 
 calcDisplaySummary(account1.movements);
 
+// out summary
+const calcOutSummary = function (movements) {
+  const out = movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}EUR`;
+};
+
+// call function
+calcOutSummary(account1.movements);
 const createUsername = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
