@@ -163,3 +163,10 @@ console.log(accounts);
 
 const account = accounts.find((acc) => acc.owner === "Jessica Davis");
 console.log(account);
+
+// coding challenge -> using a for off loop to implement this same functionality
+for (const element of accounts) {
+  if (element.owner === "Sarah Smith") {
+    console.log(element);
+  }
+}
