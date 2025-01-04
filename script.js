@@ -165,8 +165,25 @@ const account = accounts.find((acc) => acc.owner === "Jessica Davis");
 console.log(account);
 
 // coding challenge -> using a for off loop to implement this same functionality
-for (const element of accounts) {
-  if (element.owner === "Sarah Smith") {
-    console.log(element);
+// for (const element of accounts) {
+//   if (element.owner === "Sarah Smith") {
+//     console.log(element);
+//   }
+// }
+
+// event handler
+let currentAccount;
+
+btnLogin.addEventListener("click", function (E) {
+  E.preventDefault(); // prevent form from submitting
+  console.log("LOGIN");
+
+  currentAccount = accounts.find(
+    (acc) => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    console.log("LOGIN");
   }
-}
+});
