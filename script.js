@@ -251,3 +251,20 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+console.log(23 === 23.0)
+// converting a string to a number
+console.log(Number('23'))
+
+
+// parsing -> we can parse a number from a string
+console.log(Number.parseInt('20px', 10))
+console.log(Number.parseFloat('2.5rem', 10))
+
+
+// isNaN -> check if value is NaN
+console.log(Number.isNaN(20))
+console.log(Number.isNaN(23 / 0))
+
+// checking if value is number
+console.log(Number.isFinite(20))
