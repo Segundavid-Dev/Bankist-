@@ -330,3 +330,35 @@ const huge = 284849492924743394884848288n
 const num = 23
 console.log(huge * BigInt(num))
 
+
+
+// Create a date
+
+// -> first method "New Date constructor"
+const now = new Date();
+console.log(now)
+
+
+// second method
+console.log(new Date(account1.movementsDates[0]))
+console.log(new Date(account1.movementsDates[2]))
+
+
+// third method -> parse string into dates using new Dates constructor
+
+// fourth method
+const future = new Date(2037, 10, 19, 15, 23)
+console.log(future)
+
+// additional methods 
+console.log(future.getFullYear())
+console.log(future.getMonth())
+console.log(future.getDate())
+console.log(future.getDay())
+console.log(future.getTime())
+
+
+// time stamps
+console.log(Date.now())
+
+future.setFullYear()
