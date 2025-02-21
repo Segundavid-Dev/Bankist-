@@ -291,3 +291,25 @@ console.log(Math.floor(23.9))
 
 // Rounding decimals
 console.log(2.73455.toFixed(0))
+
+
+// remainder operator (modulus)
+console.log("----------REMAINDER OPERATOR----------")
+console.log(5 % 2); 
+console.log(8 % 3);
+
+const isEven = (n) => {
+  if (n % 2 === 0){
+    return true
+  } else {
+    return false
+  }
+}
+
+
+console.log(isEven(8))
+console.log(isEven(11))
+
+[document.querySelectorAll('.movements_row')].array.forEach(element => {
+  
+});
