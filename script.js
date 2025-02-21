@@ -310,6 +310,11 @@ const isEven = (n) => {
 console.log(isEven(8))
 console.log(isEven(11))
 
-[document.querySelectorAll('.movements_row')].array.forEach(element => {
-  
-});
+
+// Numeric seperators
+// 287,460,000,000
+const diameter = 287_460_000_000;
+console.log(diameter)
+
+// const PI = 3_.142 -> wrong
+console.log
