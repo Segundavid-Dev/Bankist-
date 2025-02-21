@@ -318,3 +318,15 @@ console.log(diameter)
 
 // const PI = 3_.142 -> wrong
 console.log
+
+
+// BigInt -> special type of interger introduced in es2020  
+// -> (<number>n)
+
+const  largeNumber = 10000n + 10000n
+console.log(typeof (largeNumber))
+
+const huge = 284849492924743394884848288n
+const num = 23
+console.log(huge * BigInt(num))
+
