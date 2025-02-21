@@ -81,21 +81,30 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+    
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+
+    // day/month/year ->build a nice string
+    const displayDate = `${day}/${month}/${year}`
 
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+        <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
-      </div>
+      </div> 
     `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -142,7 +151,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -154,6 +163,14 @@ const updateUI = function (acc) {
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
+
+
+// FAKE ALWAYS LOGGED IN
+currentAccount = account1;
+updateUI(currentAccount)
+containerApp.style.opacity = 100
+
+
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -170,6 +187,18 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+
+    // create current date and time
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    const year = now.getFullYear();
+    const hour = `${now.getHours()}`.padStart(2, 0);
+    const min = `${now.getMinutes()}`.padStart(2, 0)
+
+    // day/month/year ->build a nice string
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
+
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -198,6 +227,10 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString);
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -211,6 +244,10 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
+
+
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
@@ -252,113 +289,113 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 // LECTURES
 
-console.log(23 === 23.0)
-// converting a string to a number
-console.log(Number('23'))
+// console.log(23 === 23.0)
+// // converting a string to a number
+// console.log(Number('23'))
 
 
-// parsing -> we can parse a number from a string
-console.log(Number.parseInt('20px', 10))
-console.log(Number.parseFloat('2.5rem', 10))
+// // parsing -> we can parse a number from a string
+// console.log(Number.parseInt('20px', 10))
+// console.log(Number.parseFloat('2.5rem', 10))
 
 
-// isNaN -> check if value is NaN
-console.log(Number.isNaN(20))
-console.log(Number.isNaN(23 / 0))
+// // isNaN -> check if value is NaN
+// console.log(Number.isNaN(20))
+// console.log(Number.isNaN(23 / 0))
 
-// checking if value is number
-console.log(Number.isFinite(20))
-
-
-console.log(Math.sqrt(25));
-console.log(25 ** (1/2));
-console.log(8 ** (1/3))
-
-console.log(Math.max(5, 18, 23, 11, 2))
-console.log(Math.min(5, 18, 23, 11, 2))
-
-console.log(Math.PI * Number.parseFloat('10px') ** 2)
-
-const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min;
-
-console.log(randomInt(10, 20));
-
-console.log(Math.trunc(23.3))
-console.log(Math.round(23.9))
-console.log(Math.ceil(23.9))
-console.log(Math.floor(23.9))
+// // checking if value is number
+// console.log(Number.isFinite(20))
 
 
-// Rounding decimals
-console.log(2.73455.toFixed(0))
+// console.log(Math.sqrt(25));
+// console.log(25 ** (1/2));
+// console.log(8 ** (1/3))
+
+// console.log(Math.max(5, 18, 23, 11, 2))
+// console.log(Math.min(5, 18, 23, 11, 2))
+
+// console.log(Math.PI * Number.parseFloat('10px') ** 2)
+
+// const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min;
+
+// console.log(randomInt(10, 20));
+
+// console.log(Math.trunc(23.3))
+// console.log(Math.round(23.9))
+// console.log(Math.ceil(23.9))
+// console.log(Math.floor(23.9))
 
 
-// remainder operator (modulus)
-console.log("----------REMAINDER OPERATOR----------")
-console.log(5 % 2); 
-console.log(8 % 3);
-
-const isEven = (n) => {
-  if (n % 2 === 0){
-    return true
-  } else {
-    return false
-  }
-}
+// // Rounding decimals
+// console.log(2.73455.toFixed(0))
 
 
-console.log(isEven(8))
-console.log(isEven(11))
+// // remainder operator (modulus)
+// console.log("----------REMAINDER OPERATOR----------")
+// console.log(5 % 2); 
+// console.log(8 % 3);
+
+// const isEven = (n) => {
+//   if (n % 2 === 0){
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 
 
-// Numeric seperators
-// 287,460,000,000
-const diameter = 287_460_000_000;
-console.log(diameter)
-
-// const PI = 3_.142 -> wrong
-console.log
+// console.log(isEven(8))
+// console.log(isEven(11))
 
 
-// BigInt -> special type of interger introduced in es2020  
-// -> (<number>n)
+// // Numeric seperators
+// // 287,460,000,000
+// const diameter = 287_460_000_000;
+// console.log(diameter)
 
-const  largeNumber = 10000n + 10000n
-console.log(typeof (largeNumber))
-
-const huge = 284849492924743394884848288n
-const num = 23
-console.log(huge * BigInt(num))
+// // const PI = 3_.142 -> wrong
+// console.log
 
 
+// // BigInt -> special type of interger introduced in es2020  
+// // -> (<number>n)
 
-// Create a date
+// const  largeNumber = 10000n + 10000n
+// console.log(typeof (largeNumber))
 
-// -> first method "New Date constructor"
-const now = new Date();
-console.log(now)
-
-
-// second method
-console.log(new Date(account1.movementsDates[0]))
-console.log(new Date(account1.movementsDates[2]))
+// const huge = 284849492924743394884848288n
+// const num = 23
+// console.log(huge * BigInt(num))
 
 
-// third method -> parse string into dates using new Dates constructor
 
-// fourth method
-const future = new Date(2037, 10, 19, 15, 23)
-console.log(future)
+// // Create a date
 
-// additional methods 
-console.log(future.getFullYear())
-console.log(future.getMonth())
-console.log(future.getDate())
-console.log(future.getDay())
-console.log(future.getTime())
+// // -> first method "New Date constructor"
+// const now = new Date();
+// console.log(now)
 
 
-// time stamps
-console.log(Date.now())
+// // second method
+// console.log(new Date(account1.movementsDates[0]))
+// console.log(new Date(account1.movementsDates[2]))
 
-future.setFullYear()
+
+// // third method -> parse string into dates using new Dates constructor
+
+// // fourth method
+// const future = new Date(2037, 10, 19, 15, 23)
+// console.log(future)
+
+// // additional methods 
+// console.log(future.getFullYear())
+// console.log(future.getMonth())
+// console.log(future.getDate())
+// console.log(future.getDay())
+// console.log(future.getTime())
+
+
+// // time stamps
+// console.log(Date.now())
+
+// future.setFullYear()
