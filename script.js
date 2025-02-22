@@ -81,6 +81,13 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
+
+const formattedCur =function(value, locale, currency){
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency
+  }).format(value)  
+}
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -97,13 +104,15 @@ const displayMovements = function (acc, sort = false) {
     // day/month/year ->build a nice string
     const displayDate = `${day}/${month}/${year}`
 
+    const formattedMov = formattedCur(mov, acc.locale, acc.currency)
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${formattedMov}</div>
       </div> 
     `;
 
@@ -113,7 +122,9 @@ const displayMovements = function (acc, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+
+   labelBalance.textContent = formattedCur(acc.balance, acc.locale, acc.currency)
+   ;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -205,7 +216,7 @@ btnLogin.addEventListener('click', function (e) {
     console.log(locale)
 
 
-    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now)
+    labelDate.textContent = new Intl.DateTime  (currentAccount.locale, options).format(now)
 
 
 
@@ -438,3 +449,14 @@ console.log(days1);
 
 // const result = calcDaysPassed(10, 3)
 // console.log(result)
+
+
+// internalization of numbers
+const num = 3884764.23
+
+
+console.log('US:', new Intl.NumberFormat('en-US').format(num))
+
+console.log('Germany:', new Intl.NumberFormat('de-DE').format(num))
+
+console.log('Syria:', new Intl.NumberFormat('ae-SY').format(num))
