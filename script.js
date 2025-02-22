@@ -172,6 +172,7 @@ containerApp.style.opacity = 100
 
 
 
+
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
   e.preventDefault();
@@ -188,16 +189,36 @@ btnLogin.addEventListener('click', function (e) {
     }`;
     containerApp.style.opacity = 100;
 
+
+
+        // Experimenting with the API
+    const now = new Date()
+    const options = {
+      hour : 'numeric',
+      minute : 'numeric',
+      day : 'numeric',
+      month : 'numeric',
+      year : 'numeric'
+    }
+
+    const locale = navigator.language;
+    console.log(locale)
+
+
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now)
+
+
+
     // create current date and time
-    const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0)
+    // const now = new Date();
+    // const day = `${now.getDate()}`.padStart(2, 0);
+    // const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`.padStart(2, 0);
+    // const min = `${now.getMinutes()}`.padStart(2, 0)
 
     // day/month/year ->build a nice string
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
 
 
     // Clear input fields
@@ -399,3 +420,21 @@ btnSort.addEventListener('click', function (e) {
 // console.log(Date.now())
 
 // future.setFullYear()
+
+// opeations on dates
+
+const future = new Date(2037, 10, 19, 15, 23)
+
+console.log(Number(future))
+
+const calcDaysPassed = (date1, date2) => (date2 - date1) / (1000 * 60 * 60 *24);
+
+
+const days1 = calcDaysPassed(new Date(2024, 3, 10), new Date(2024, 4, 23));
+
+console.log(days1);
+
+// const calcDaysPassed = (date1, date2) => date2 - date1
+
+// const result = calcDaysPassed(10, 3)
+// console.log(result)
