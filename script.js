@@ -176,12 +176,44 @@ const updateUI = function (acc) {
 let currentAccount;
 
 
-// FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount)
-containerApp.style.opacity = 100
+// // FAKE ALWAYS LOGGED IN
+// currentAccount = account1;
+// updateUI(currentAccount)
+// containerApp.style.opacity = 100
 
 
+const startLogOutTimer = function(){
+
+  const tick = function(){
+
+    const min = String(Math.trunc(time / 60)).padStart(2,0);
+    const seconds = String(time % 60).padStart(2, 0)
+
+      // in each call, print the remaining time to UI
+      labelTimer.textContent = `${min}:${seconds}`;
+
+    
+
+      // when 0 seconds, stop timer and log out user
+
+      if(time === 0){
+        clearInterval(timer);
+        labelWelcome.textContent = `Log in to get started`;
+        containerApp.style.opacity = 0;
+      }
+
+  }
+  // Set time to 5 minutes
+  let time = 120;
+  // call the timer every second
+  tick();
+  const timer = setInterval(tick,1000) 
+  return timer;
+
+    // Decrease 1s
+    time--;
+  
+}
 
 
 btnLogin.addEventListener('click', function (e) {
@@ -216,7 +248,7 @@ btnLogin.addEventListener('click', function (e) {
     console.log(locale)
 
 
-    labelDate.textContent = new Intl.DateTime  (currentAccount.locale, options).format(now)
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now)
 
 
 
@@ -235,6 +267,9 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+
+    startLogOutTimer()
 
     // Update UI
     updateUI(currentAccount);
@@ -265,6 +300,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+    
+
+    // Reset timer
+    clearInterval(timer)
   }
 });
 
